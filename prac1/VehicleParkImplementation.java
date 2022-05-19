@@ -32,7 +32,9 @@ public class VehicleParkImplementation implements VehiclePark{
 		/* Returns the number of private vehicles in the Vehicle Park */
 		/* COMPLETE done */
 		int n = 0;
-		for(Vehicle v : infrastructure) {
+		Iterator it=infrastructure.iterator();
+		while(it.hasNext()) {
+			Vehicle v=(Vehicle) it.next();
 			if(v instanceof PrivateVehicle) n++;
 		}
 		return n;
@@ -42,9 +44,13 @@ public class VehicleParkImplementation implements VehiclePark{
 	public boolean inPark (Plate p) {
 		/* Returns true if the vehicle park contains a vehicle with plate p */
 		/* COMPLETE done */
-		for(Vehicle v : infrastructure) {
-			if(v.getPlate().equals(p)) return true;
+		Iterator it=infrastructure.iterator();
+		while(it.hasNext()) {
+			Vehicle v=(Vehicle) it.next();
+			if(v.getPlate().equals(p)) 
+				return true;
 		}
+		return false;
 	}
 	
 	@Override
@@ -80,15 +86,18 @@ public class VehicleParkImplementation implements VehiclePark{
 		
 		/* COMPLETE done */
 
+		int entrats=0;
 		for(Object v: vehicles) {
 			if(v instanceof Vehicle) {
 				try {
 					enter((Vehicle)v);
+					entrats++;
 				} catch (AlreadyStoredException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		return entrats;
 		
 	}
 
@@ -104,12 +113,15 @@ public class VehicleParkImplementation implements VehiclePark{
 		
 		/* COMPLETE done */
 
-		for(Vehicle v : infrastructure) {
+		Iterator it=infrastructure.iterator();
+		while(it.hasNext()) {
+			Vehicle v=(Vehicle) it.next();
 			if(v.getPlate().equals(p)) {
-				infrastructure.remove(v);
+				it.remove();
 				return true;
 			}
 		}
+		return false;
 	}
 
 	
@@ -126,10 +138,11 @@ public class VehicleParkImplementation implements VehiclePark{
 	  /* COMPLETE done */
 
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-
-		for(Vehicle v : infrastructure) {
+		Iterator it=infrastructure.iterator();
+		while(it.hasNext()) {
+			Vehicle v=(Vehicle) it.next();
 			if(v.getOwner().equals(owner)) {
-				infrastructure.remove(v);
+				it.remove();
 				vehicles.add(v);
 			}
 		}
@@ -146,7 +159,9 @@ public class VehicleParkImplementation implements VehiclePark{
 		 */
 		/* COMPLETE done */
 
-		for(Vehicle v : infrastructure) {
+		Iterator it=infrastructure.iterator();
+		while(it.hasNext()) {
+			Vehicle v=(Vehicle) it.next();
 			if(v instanceof CommercialVehicle) {
 				CommercialVehicle cv = (CommercialVehicle)v;
 				if(cv.containsDangerousPayload()) return true;

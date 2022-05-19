@@ -21,70 +21,54 @@ public class Plate implements Comparable, Cloneable {
 	
 	
 	public int getAreaCode() {
-
 		return areaCode;
 	}
 
 	public String getPrefix() {
-
 		return prefix;
 	}
 
 	public String getSuffix() {
-
 		return suffix;
 	}
 
 
-
 	@Override
 	public int compareTo (Object other) {
-		/* this is how plates are sorted:
-		 	first go plates with lower area codes. If they have the same area code...
-		 	... first go plates with a lower prefix. If the have the same prefix...
-		 	... first go plates with a lower suffix.
-		 */
-		
-		/* COMPLETE en principio done */
-		// excepcion
+
 		if (!(other instanceof Plate)) {
 			throw new RuntimeException("Other no es una instancia de Plate");
 		}
-		// declaracion y comparaciones
-		Plate a = (Plate) other;
-		if (compararCode(a)>0) return 1;
-		return -1;
+		
+		
+		Plate a=(Plate) other;
+		int codi=compararCode(a);
+		if (codi==0) {
+			int pref=this.getPrefix().compareTo(a.getPrefix());
+			if(pref==0) {
+				return this.getSuffix().compareTo(a.getSuffix());
+			} else return pref;
+			
+		} 
+
+		return codi;
 	}
 	// funcions per a les comparacions
 	private int compararCode(Plate a){
-		if(a.getAreaCode()<this.getAreaCode()){
-			return 1;
-		}
-		return -1;
-	}
-	private int compararSuf(Plate a){
-		if (a.getSuffix().compareTo(this.getSuffix()) < 0) {
-			return 1;
-		}
-		return -1;
-	}
-	private int compararPref(Plate a){
-		if (a.getPrefix().compareTo(this.getPrefix()) < 0) {
-			return 1;
-		}
-		return -1;
+		return this.getAreaCode()-a.getAreaCode();
 	}
 	
+	
 	@Override
-	public boolean equals (Object other) {
+	public boolean equals(Object other) {
 		/* COMPLETE */
-		// excepcion
+
 		if (!(other instanceof Plate)) {
 			throw new RuntimeException("Other no es una instancia de Plate");
 		}
-		// declaracion y comparaciones
-		Plate a = (Plate) other;
-		return a.equals(this);
+		
+		Plate a=(Plate)other;
+		return( suffix.equals(a.getSuffix()) && prefix.equals(a.getPrefix()) && areaCode==a.getAreaCode() );
 	}
 
 	@Override
