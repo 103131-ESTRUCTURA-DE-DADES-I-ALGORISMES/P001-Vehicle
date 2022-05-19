@@ -1,5 +1,6 @@
 package prac1;
 
+
 // PLATE = (PLACA DE) MATR�CULA 
 
 public class Plate implements Comparable, Cloneable {
@@ -20,14 +21,17 @@ public class Plate implements Comparable, Cloneable {
 	
 	
 	public int getAreaCode() {
+
 		return areaCode;
 	}
 
 	public String getPrefix() {
+
 		return prefix;
 	}
 
 	public String getSuffix() {
+
 		return suffix;
 	}
 
@@ -35,7 +39,6 @@ public class Plate implements Comparable, Cloneable {
 
 	@Override
 	public int compareTo (Object other) {
-		
 		/* this is how plates are sorted:
 		 	first go plates with lower area codes. If they have the same area code...
 		 	... first go plates with a lower prefix. If the have the same prefix...
@@ -43,18 +46,59 @@ public class Plate implements Comparable, Cloneable {
 		 */
 		
 		/* COMPLETE */
-		
-		
+		// excepcion
+		if (!(other instanceof Plate)) {
+			throw new RuntimeException("Other no es una instancia de Plate");
+		}
+		// declaracion y comparaciones
+		Plate a = (Plate) other;
+		if (compararCode(a)>0){
+			return 1;
+		} else {
+			return -1;
+		}
+		if (compararPref(a)>0){
+			return 1;
+		} else {
+			return -1;
+		}
+		if (compararSuf(a)>0){
+			return 1;
+		}
+		return -1;
 	}
-	
+	// funcions per a les comparacions
+	private int compararCode(Plate a){
+		if(a.getAreaCode()<this.getAreaCode()){
+			return 1;
+		}
+		return -1;
+	}
+	private int compararSuf(Plate a){
+		if (a.getSuffix().compareTo(this.getSuffix()) < 0) {
+			return 1;
+		}
+		return -1;
+	}
+	private int compararPref(Plate a){
+		if (a.getPrefix().compareTo(this.getPrefix()) < 0) {
+			return 1;
+		}
+		return -1;
+	}
 	
 	@Override
 	public boolean equals (Object other) {
 		/* COMPLETE */
-		
+		// excepcion
+		if (!(other instanceof Plate)) {
+			throw new RuntimeException("Other no es una instancia de Plate");
+		}
+		// declaracion y comparaciones
+		Plate a = (Plate) other;
+		return a.equals(this);
 	}
-	
-	
+
 	@Override
 	public String toString () {
 		return "["+this.areaCode+" "+this.prefix+"-"+this.suffix+"]";
