@@ -45,26 +45,14 @@ public class Plate implements Comparable, Cloneable {
 		 	... first go plates with a lower suffix.
 		 */
 		
-		/* COMPLETE */
+		/* COMPLETE en principio done */
 		// excepcion
 		if (!(other instanceof Plate)) {
 			throw new RuntimeException("Other no es una instancia de Plate");
 		}
 		// declaracion y comparaciones
 		Plate a = (Plate) other;
-		if (compararCode(a)>0){
-			return 1;
-		} else {
-			return -1;
-		}
-		if (compararPref(a)>0){
-			return 1;
-		} else {
-			return -1;
-		}
-		if (compararSuf(a)>0){
-			return 1;
-		}
+		if (compararCode(a)>0) return 1;
 		return -1;
 	}
 	// funcions per a les comparacions
