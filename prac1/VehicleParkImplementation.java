@@ -8,31 +8,31 @@ public class VehicleParkImplementation implements VehiclePark{
 	// do not add more attributes. This is all you really need
 	
 	public VehicleParkImplementation () {
-		infrastructure = /* COMPLETE */
+		infrastructure = new ArrayList<>(); /* COMPLETE done */
 	}
 	
 	
 	@Override
 	public int numVehicles() {
 		/* Returns the number of vehicles currently in the vehicle park */
-		/* COMPLETE done*/
-		return vehicles.size();
+		/* COMPLETE done */
+		return infrastructure.size();
 	}
 	
 	@Override
 	public boolean isEmpty() {
 		/* Returns true if the vehicle park is empty, false otherwise */
-		/* COMPLETE done*/
-		return vehicles.isEmpty();
+		/* COMPLETE done */
+		return infrastructure.isEmpty();
 	}
 
 
 	@Override
 	public int numPrivate() {
 		/* Returns the number of private vehicles in the Vehicle Park */
-		/* COMPLETE done*/
+		/* COMPLETE done */
 		int n = 0;
-		for(Vehicle v : vehicles) {
+		for(Vehicle v : infrastructure) {
 			if(v instanceof PrivateVehicle) n++;
 		}
 		return n;
@@ -41,8 +41,8 @@ public class VehicleParkImplementation implements VehiclePark{
 	@Override
 	public boolean inPark (Plate p) {
 		/* Returns true if the vehicle park contains a vehicle with plate p */
-		/* COMPLETE */
-		for(Vehicle v : vehicles) {
+		/* COMPLETE done */
+		for(Vehicle v : infrastructure) {
 			if(v.getPlate().equals(p)) return true;
 		}
 	}
@@ -55,10 +55,10 @@ public class VehicleParkImplementation implements VehiclePark{
 		   	- a AlreadyStoredException if the VehiclePark already contains a
 		   	  vehicle "like" v
 		 */
-		/* COMPLETE */
+		/* COMPLETE done */
 		if(v == null) throw new NullPointerException();
 		if(inPark(v.getPlate())) throw new AlreadyStoredException();
-		vehicles.add(v);		
+		infrastructure.add(v);		
 	}
 
 	
@@ -78,7 +78,17 @@ public class VehicleParkImplementation implements VehiclePark{
 		/* base this methods in the previous one 
 		 (make it call the previous one) */
 		
-		/* COMPLETE */
+		/* COMPLETE done */
+
+		for(Object v: vehicles) {
+			if(v instanceof Vehicle) {
+				try {
+					enter((Vehicle)v);
+				} catch (AlreadyStoredException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 
@@ -92,7 +102,14 @@ public class VehicleParkImplementation implements VehiclePark{
 		/* You can take into account that Vehicle equality 
 		   is based on Plate equality */
 		
-		/* COMPLETE */
+		/* COMPLETE done */
+
+		for(Vehicle v : infrastructure) {
+			if(v.getPlate().equals(p)) {
+				infrastructure.remove(v);
+				return true;
+			}
+		}
 	}
 
 	
@@ -106,7 +123,18 @@ public class VehicleParkImplementation implements VehiclePark{
  			- has length 0 if no vehicles has been removed
  			- is sorted according to the natural ordering of the vehicles (ascending)
 	 */
-	  /* COMPLETE */
+	  /* COMPLETE done */
+
+		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+
+		for(Vehicle v : infrastructure) {
+			if(v.getOwner().equals(owner)) {
+				infrastructure.remove(v);
+				vehicles.add(v);
+			}
+		}
+
+		return vehicles.toArray(new Vehicle[vehicles.size()]);
 		
 	}
 
@@ -116,8 +144,16 @@ public class VehicleParkImplementation implements VehiclePark{
 	 	Returns true if the VehiclePark contains any CommercialVehicle 
 	 	the payload of which is dangerous. False otherwise;
 		 */
-		/* COMPLETE */
+		/* COMPLETE done */
+
+		for(Vehicle v : infrastructure) {
+			if(v instanceof CommercialVehicle) {
+				CommercialVehicle cv = (CommercialVehicle)v;
+				if(cv.containsDangerousPayload()) return true;
+			}
+		}
 		
+		return false;
 	}
 
 	
